@@ -6,7 +6,7 @@ Description: 'AWS Service Broker - Global Amazon Aurora MySQL 5.6, 5.7 (qs-1pn9k
 ###############################################################################
 Metadata:
   AWS::ServiceBroker::Specification:
-    Version: 1.5
+    Version: 1.6
     Tags:
     - AWS
     - Aurora
@@ -1303,7 +1303,7 @@ Resources:
       - functions/get_subnet_ids/lambda_function.zip
       - functions/get_sg/lambda_function.zip
       - functions/rds_global1.4/lambda_function.zip
-      - layers/requests/lambda_layer.zip
+      - layers/requests1.1/lambda_layer.zip
       LambdaUpdate: !Ref LambdaUpdate
   AWSSBInjectedCopyZipsRole:
     Type: AWS::IAM::Role
@@ -1737,7 +1737,7 @@ Resources:
         - python3.8
       Content:
         S3Bucket: !Ref AWSSBInjectedLambdaZipsBucket
-        S3Key: layers/requests/lambda_layer.zip
+        S3Key: layers/requests1.1/lambda_layer.zip
       Description: Contains requests and cfnresponse.send()
       LayerName: requests
       LicenseInfo: Apache License v2.0, AWS Customer Agreement

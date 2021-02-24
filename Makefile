@@ -105,7 +105,7 @@ functions: ## Package and upload functions
 	rm -rf functions-staging && \
 	cp -a layers layers-staging && \
 	cd layers-staging && \
-	for i in $(LAYERS) ; do mkdir -p ../release/$(VERSION)$(LAYER_PREFIX)/$$i ; cd $$i/python ; pip3 install -r requirements.txt --target . ; cd .. ; zip -r lambda_layer * -x .* -x 'python/bin/*' -x python/botocore* ; cp lambda_layer.zip ../../release/$(VERSION)$(LAYER_PREFIX)/$$i ; cd .. ; done && \
+	for i in $(LAYERS) ; do mkdir -p ../release/$(VERSION)$(LAYER_PREFIX)/$$i ; cd $$i/python ; if [ -e ../version ]; then export LAYER_VERSION=$$(cat ../version) ; else unset LAYER_VERSION ; fi; pip3 install -r requirements.txt --target . ; cd .. ; zip -r lambda_layer * -x .* -x 'python/bin/*' -x python/botocore* ; cp lambda_layer.zip ../../release/$(VERSION)$(LAYER_PREFIX)/$$i$$LAYER_VERSION ; cd .. ; done && \
 	cd .. && \
 	aws s3 cp --recursive release/$(VERSION)$(LAYER_PREFIX)/ s3://$(BUCKET_NAME)$(LAYER_PREFIX)/ --acl $(ACL) $(PROFILE) && \
 	rm -rf layers-staging
